@@ -85,10 +85,6 @@ function setupSharedChrome() {
                 <i class="fa-solid fa-film"></i>
                 <span class="cta-label">Request Movie</span>
             </button>
-            <button type="button" class="floating-cta" id="reportIssueBtn" aria-label="Report Issues">
-                <i class="fa-solid fa-flag"></i>
-                <span class="cta-label">Report Issues</span>
-            </button>
         </div>`;
     }
 
@@ -172,7 +168,7 @@ function ensureFeedbackModals() {
                 </div>
                 <div class="modal-field">
                     <label for="requestReleaseYear">Release Year</label>
-                    <input type="number" id="requestReleaseYear" name="releaseYear" placeholder="Enter the release year" min="1888" max="2100" required>
+                    <input type="text" id="requestReleaseYear" name="releaseYear" placeholder="Enter the release year" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required>
                 </div>
                 <div class="modal-field">
                     <label for="requestAdditionalInfo">Additional Information</label>
@@ -184,41 +180,23 @@ function ensureFeedbackModals() {
                 <p class="modal-message" id="requestMovieMessage" role="status" hidden></p>
             </form>
         </section>
-    </div>
-    <div class="cinetore-modal-backdrop" id="reportIssueModal" hidden>
-        <section class="cinetore-modal" role="dialog" aria-modal="true" aria-labelledby="reportIssueHeading">
-            <button type="button" class="modal-close" data-modal-close aria-label="Close issue form"><span aria-hidden="true">&times;</span></button>
-            <h2 id="reportIssueHeading">Report an Issue</h2>
-            <form id="reportIssueForm" novalidate>
-                <div class="modal-field">
-                    <label for="issueType">Issue Type</label>
-                    <select id="issueType" name="issueType" required>
-                        <option value="">Select an issue type</option>
-                        <option>Movie details are incorrect</option>
-                        <option>Movie poster or image is missing</option>
-                        <option>Movie page is not opening</option>
-                        <option>Search is not working</option>
-                        <option>Buttons or links are not working</option>
-                        <option>Video or download option issue</option>
-                        <option>Layout or display problem</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="modal-field">
-                    <label for="issueDescription">Issue Description</label>
-                    <textarea id="issueDescription" name="issueDescription" placeholder="Describe the issue you encountered" required></textarea>
-                </div>
-                <div class="modal-field" id="otherIssueField" hidden>
-                    <label for="otherIssueDescription">Please specify the issue</label>
-                    <textarea id="otherIssueDescription" name="otherIssueDescription" placeholder="Specify the issue"></textarea>
-                </div>
-                <div class="modal-actions">
-                    <button type="submit" class="btn btn-accent">Submit Report</button>
-                </div>
-                <p class="modal-message" id="reportIssueMessage" role="status" hidden></p>
-            </form>
-        </section>
     </div>`);
+
+    document.body.insertAdjacentHTML("beforeend", `<div class="cinetore-notification" id="cinetoreNotification" role="status" aria-live="polite" hidden></div>`);
+}
+
+function showNotification(message) {
+    const notification = document.getElementById("cinetoreNotification");
+    if (!notification) {
+        return;
+    }
+
+    notification.textContent = message;
+    notification.hidden = false;
+    window.clearTimeout(showNotification.timeout);
+    showNotification.timeout = window.setTimeout(function () {
+        notification.hidden = true;
+    }, 3500);
 }
 
 function setupFeedbackModals() {
@@ -231,12 +209,6 @@ function setupFeedbackModals() {
             form: document.getElementById("requestMovieForm"),
             message: document.getElementById("requestMovieMessage")
         },
-        {
-            button: document.getElementById("reportIssueBtn"),
-            modal: document.getElementById("reportIssueModal"),
-            form: document.getElementById("reportIssueForm"),
-            message: document.getElementById("reportIssueMessage")
-        }
     ];
     let activeModal = null;
     let opener = null;
@@ -295,13 +267,17 @@ function setupFeedbackModals() {
             if (pair.form.id === "requestMovieForm") {
                 const name = document.getElementById("requestMovieName");
                 const year = document.getElementById("requestReleaseYear");
-                const yearValue = Number(year.value);
+                const yearText = year.value.trim();
+                const yearValue = Number(yearText);
                 const currentYear = new Date().getFullYear();
 
-                if (!name.value.trim() || !year.value || yearValue < 1888 || yearValue > currentYear + 5) {
+                name.setCustomValidity("");
+                year.setCustomValidity("");
+
+                if (!name.value.trim() || !/^\d{4}$/.test(yearText) || yearValue < 1888 || yearValue > currentYear + 5) {
                     name.setCustomValidity(name.value.trim() ? "" : "Enter a movie name.");
                     pair.form.reportValidity();
-                    if (year.value && (yearValue < 1888 || yearValue > currentYear + 5)) {
+                    if (!/^\d{4}$/.test(yearText) || yearValue < 1888 || yearValue > currentYear + 5) {
                         year.setCustomValidity("Enter a valid four-digit release year.");
                         year.reportValidity();
                         year.setCustomValidity("");
@@ -309,43 +285,17 @@ function setupFeedbackModals() {
                     return;
                 }
 
-                pair.message.textContent = "Thanks. Your request was prepared locally.";
-            } else if (pair.form.checkValidity()) {
-                pair.message.textContent = "Thanks. Your report was prepared locally.";
-            } else {
-                pair.form.reportValidity();
+                pair.form.reset();
+                pair.message.hidden = true;
+                closeModal(pair.modal, true);
+                showNotification("Your movie request was submitted locally.");
                 return;
             }
 
             pair.form.reset();
-            const otherField = document.getElementById("otherIssueField");
-            if (otherField) {
-                otherField.hidden = true;
-            }
-            const otherDescription = document.getElementById("otherIssueDescription");
-            if (otherDescription) {
-                otherDescription.required = false;
-                otherDescription.value = "";
-            }
             pair.message.hidden = false;
         });
     });
-
-    const issueType = document.getElementById("issueType");
-    const otherIssueField = document.getElementById("otherIssueField");
-    const otherIssueDescription = document.getElementById("otherIssueDescription");
-
-    if (issueType && otherIssueField && otherIssueDescription) {
-        issueType.addEventListener("change", function () {
-            const isOther = issueType.value === "Other";
-            otherIssueField.hidden = !isOther;
-            otherIssueDescription.required = isOther;
-
-            if (!isOther) {
-                otherIssueDescription.value = "";
-            }
-        });
-    }
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && activeModal) {
