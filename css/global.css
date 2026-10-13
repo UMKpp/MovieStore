@@ -6,6 +6,16 @@
     --accent: #8FB3C9;
     --primary-text: #FFFFFF;
     --secondary-text: #A1A1AA;
+    --surface: #10121d;
+    --surface-raised: #11131d;
+    --surface-input: #10121d;
+    --border-color: rgba(161, 161, 170, 0.35);
+    --overlay: rgba(7, 8, 16, 0.78);
+    --hover-surface: rgba(255, 255, 255, 0.08);
+    --on-accent: #070810;
+    --footer-background: #070810;
+    --footer-primary: #FFFFFF;
+    --footer-secondary: #A1A1AA;
     --navbar-height: 70px;
 }
 
@@ -31,6 +41,16 @@ body {
 body.light-mode {
     --background: #f4f4f5;
     --brand-blue: #0F1257;
+    --footer-background: #070810;
+    --footer-primary: #FFFFFF;
+    --footer-secondary: #A1A1AA;
     --primary-text: #111827;
     --secondary-text: #52525b;
+    --surface: #FFFFFF;
+    --surface-raised: #FFFFFF;
+    --surface-input: #FFFFFF;
+    --border-color: #cbd5e1;
+    --overlay: rgba(15, 18, 87, 0.35);
+    --hover-surface: rgba(15, 18, 87, 0.08);
+    --on-accent: #070810;
 }

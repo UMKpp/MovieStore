@@ -36,8 +36,8 @@
     width: 100%;
     height: 58px;
     padding: 0 20px;
-    background-color: #10121d;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: var(--surface-input);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -108,7 +108,7 @@
     position: relative;
     overflow: hidden;
     aspect-ratio: 2 / 3;
-    background-color: #11131d;
+    background-color: var(--surface-raised);
     border-radius: 8px;
 }
 
@@ -126,7 +126,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(7, 8, 16, 0.55);
+    background-color: var(--overlay);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -160,16 +160,3 @@
 }
 
 /* Home page theme overrides */
-
-body.light-mode .search-box {
-    background-color: #ffffff;
-    border-color: #d4d4d8;
-}
-
-body.light-mode .search-box input {
-    color: #111827;
-}
-
-body.light-mode .poster-overlay {
-    background-color: rgba(255, 255, 255, 0.35);
-}

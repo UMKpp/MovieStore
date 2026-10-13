@@ -17,6 +17,25 @@ const movieData = {
     "When Harry Met Sally": { director: "Rob Reiner", description: "Harry Burns and Sally Albright meet during a cross-country drive and keep finding their way back into each other's lives over the years. Their conversations about friendship, love, and timing gradually reveal a relationship that is more complicated and more lasting than either expects.", cast: [["Billy Crystal", "Harry Burns", "Billy_Crystal_2012.jpg"], ["Meg Ryan", "Sally Albright", "Meg_Ryan_2019.jpg"], ["Carrie Fisher", "Marie", "Carrie_Fisher_2013.jpg"], ["Bruno Kirby", "Jess", "Bruno_Kirby_1988.jpg"]], related: [["The Princess Bride", "1987", "https://www.google.com/search?q=The+Princess+Bride+movie"], ["A Few Good Men", "1992", "https://www.google.com/search?q=A+Few+Good+Men+movie"]] }
 };
 
+const genreMovies = [
+    ["Spider-Man: Brand New Day", "Action", "spider-man-brand-new-day.html", "https://media.themoviedb.org/t/p/w220_and_h330_face/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg"],
+    ["Red Notice", "Action", "red-notice.html", "https://upload.wikimedia.org/wikipedia/en/1/1b/SAS_Red_Notice_film_poster.png"],
+    ["Extraction", "Action", "extraction.html", "https://upload.wikimedia.org/wikipedia/en/1/1a/Extraction_Movie_Poster.jpg"],
+    ["The Gray Man", "Action", "the-gray-man.html", "https://image.tmdb.org/t/p/w500/8cXbitsS6dWQ5gfMTZdorpAAzEH.jpg"],
+    ["Don't Look Up", "Sci-Fi", "dont-look-up.html", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzS__a_h04jU5rF3d0bGggLBpjqnYvr7L3Z67RvuB1GA&s=10"],
+    ["The Adam Project", "Sci-Fi", "the-adam-project.html", "https://image.tmdb.org/t/p/w500/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg"],
+    ["They Cloned Tyrone", "Sci-Fi", "they-cloned-tyrone.html", "https://upload.wikimedia.org/wikipedia/en/5/53/They_cloned_tyrone_poster.png"],
+    ["Marriage Story", "Drama", "marriage-story.html", "https://upload.wikimedia.org/wikipedia/en/f/f4/Marriage_Story.jpg"],
+    ["The Irishman", "Drama", "the-irishman.html", "https://upload.wikimedia.org/wikipedia/en/8/80/The_Irishman_poster.jpg"],
+    ["Society of the Snow", "Drama", "society-of-the-snow.html", "https://upload.wikimedia.org/wikipedia/en/7/76/Society_of_the_Snow_poster.jpg"],
+    ["When Harry Met Sally", "RomCom", "when-harry-met-sally.html", "https://upload.wikimedia.org/wikipedia/en/1/1c/WhenHarryMetSallyPoster.jpg"],
+    ["Sweet Home Alabama", "RomCom", "sweet-home-alabama.html", "https://upload.wikimedia.org/wikipedia/en/f/fc/Sweet_Home_Alabama_film.jpg"],
+    ["The Love Hypothesis", "RomCom", "the-love-hypothesis.html", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-OxBAioogfs5l3mKxzJpkNodxDknnddccmIGdrg2JvHvVRPfT-mB0clA&s=10"],
+    ["Spirited Away", "Animation", "spirited-away.html", "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg"],
+    ["Grave of the Fireflies", "Animation", "grave-of-the-fireflies.html", "https://upload.wikimedia.org/wikipedia/en/a/a5/Grave_of_the_Fireflies_Japanese_poster.jpg"],
+    ["The Conjuring: Last Rites", "Horror", "the-conjuring-last-rites.html", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbLTUdWonTPdE9Ozb3EYsJVj0S6RVwRsu645C9GA_SrQ&s=10"]
+];
+
 function googleSearch(value) { return "https://www.google.com/search?q=" + encodeURIComponent(value + " actor"); }
 
 const availableCastImages = new Set([
@@ -46,8 +65,6 @@ function buildCast(cast) {
 }
 
 function setupSharedChrome() {
-    const isHomePage = Boolean(document.getElementById("movieSearch"));
-    const homePrefix = isHomePage ? "" : "index.html";
     const navbar = document.querySelector(".cinetore-navbar");
     const floatingActions = document.querySelector(".floating-actions");
     const footer = document.querySelector(".cinetore-footer");
@@ -66,8 +83,7 @@ function setupSharedChrome() {
                 </div>
                 <div class="collapse navbar-collapse" id="cinetore-navbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="${homePrefix}#genres">Genre</a></li>
-                        <li><a href="${homePrefix}#movie-section" id="myListLink">My List</a></li>
+                        <li><a href="genre.html">Genre</a></li>
                         <li>
                             <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
                                 <i id="themeIcon" class="fa-solid fa-sun"></i>
@@ -102,12 +118,12 @@ function setupSharedChrome() {
                 <div class="col-sm-4 footer-column">
                     <h4 class="footer-heading">Genres</h4>
                     <ul class="footer-links">
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Action">Action</a></li>
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Sci-Fi">Sci-Fi</a></li>
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Drama">Drama</a></li>
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="RomCom">RomCom</a></li>
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Animation">Animation</a></li>
-                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Horror">Horror</a></li>
+                        <li><a href="genre.html?genre=Action">Action</a></li>
+                        <li><a href="genre.html?genre=Sci-Fi">Sci-Fi</a></li>
+                        <li><a href="genre.html?genre=Drama">Drama</a></li>
+                        <li><a href="genre.html?genre=RomCom">RomCom</a></li>
+                        <li><a href="genre.html?genre=Animation">Animation</a></li>
+                        <li><a href="genre.html?genre=Horror">Horror</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-4 footer-column">
@@ -129,7 +145,6 @@ function setupMovieDetail() {
     const movieInfo = document.querySelector(".movie-info");
     if (!titleElement || !movieInfo || !movieData[titleElement.textContent.trim()]) return;
     const movie = movieData[titleElement.textContent.trim()];
-    setupSharedChrome();
     const description = movieInfo.querySelector(".movie-description .detail-value");
     const rating = movieInfo.querySelector(".detail-row:nth-child(3)");
     if (description) description.textContent = movie.description;
@@ -138,18 +153,6 @@ function setupMovieDetail() {
     const oldCast = document.querySelector(".cast-section");
     if (oldCast) oldCast.remove();
     movieInfo.insertAdjacentHTML("beforeend", `<section class="cast-section"><h3 class="section-title">Cast</h3><div class="cast-list">${buildCast(movie.cast)}</div></section>`);
-}
-
-function readMyList() {
-    try {
-        return JSON.parse(localStorage.getItem("cinetoreMyList") || "[]");
-    } catch (error) {
-        return [];
-    }
-}
-
-function writeMyList(movieTitles) {
-    localStorage.setItem("cinetoreMyList", JSON.stringify(movieTitles));
 }
 
 function ensureFeedbackModals() {
@@ -309,9 +312,7 @@ function setupHomePage() {
     const movieCards = Array.from(document.querySelectorAll(".movie-card"));
     const noMoviesMessage = document.getElementById("noMoviesMessage");
     const genreLinks = document.querySelectorAll(".genre-filter");
-    const myListLink = document.getElementById("myListLink");
     let activeGenre = "";
-    let showingMyList = false;
 
     if (!movieSearch || movieCards.length === 0) {
         return;
@@ -319,7 +320,6 @@ function setupHomePage() {
 
     function filterMovies() {
         const query = movieSearch.value.trim().toLowerCase();
-        const savedMovies = readMyList();
         let visibleMovies = 0;
 
         movieCards.forEach(function (movieCard) {
@@ -327,9 +327,8 @@ function setupHomePage() {
             const genre = movieCard.dataset.genre || "";
             const matchesQuery = title.includes(query);
             const matchesGenre = !activeGenre || genre === activeGenre;
-            const matchesList = !showingMyList || savedMovies.includes(movieCard.dataset.movieTitle);
             const column = movieCard.closest("[class*='col-']");
-            const isVisible = matchesQuery && matchesGenre && matchesList;
+            const isVisible = matchesQuery && matchesGenre;
 
             if (column) {
                 column.hidden = !isVisible;
@@ -341,50 +340,78 @@ function setupHomePage() {
         });
 
         if (noMoviesMessage) {
-            noMoviesMessage.textContent = showingMyList && savedMovies.length === 0
-                ? "Your list is empty."
-                : "No movies found.";
+            noMoviesMessage.textContent = "No movies found.";
             noMoviesMessage.hidden = visibleMovies !== 0;
         }
     }
-
-    movieCards.forEach(function (movieCard) {
-        movieCard.addEventListener("click", function () {
-            const title = movieCard.dataset.movieTitle;
-            const savedMovies = readMyList();
-
-            if (title && !savedMovies.includes(title)) {
-                savedMovies.push(title);
-                writeMyList(savedMovies);
-            }
-        });
-    });
 
     movieSearch.addEventListener("input", filterMovies);
 
     genreLinks.forEach(function (genreLink) {
         genreLink.addEventListener("click", function () {
             activeGenre = genreLink.dataset.genre || "";
-            showingMyList = false;
             filterMovies();
         });
     });
 
-    if (myListLink) {
-        myListLink.addEventListener("click", function () {
-            showingMyList = true;
-            activeGenre = "";
-            movieSearch.value = "";
-            filterMovies();
-        });
-    }
-
     filterMovies();
 }
 
+function setupGenrePage() {
+    const grid = document.getElementById("genreMovieGrid");
+    const emptyState = document.getElementById("genreEmptyState");
+    const filterButtons = Array.from(document.querySelectorAll(".genre-filter-button"));
+
+    if (!grid || filterButtons.length === 0) {
+        return;
+    }
+
+    function renderMovies(selectedGenre) {
+        const movies = selectedGenre === "All"
+            ? genreMovies
+            : genreMovies.filter(function (movie) { return movie[1] === selectedGenre; });
+
+        grid.innerHTML = movies.map(function (movie) {
+            return `<div class="genre-movie-column"><a href="${movie[2]}" class="movie-card">
+                <div class="poster-container">
+                    <img src="${movie[3]}" alt="${movie[0]}" class="movie-poster" onerror="this.onerror=null;this.src='images/favicon.png';this.classList.add('poster-fallback')">
+                    <div class="poster-overlay"><div class="play-button"><i class="fa-solid fa-play"></i></div></div>
+                </div>
+                <span class="genre-movie-title">${movie[0]}</span>
+            </a></div>`;
+        }).join("");
+
+        emptyState.hidden = movies.length !== 0;
+    }
+
+    function selectGenre(selectedGenre) {
+        filterButtons.forEach(function (button) {
+            const isSelected = button.dataset.genre === selectedGenre;
+            button.classList.toggle("active", isSelected);
+            button.setAttribute("aria-pressed", String(isSelected));
+        });
+        renderMovies(selectedGenre);
+    }
+
+    filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            selectGenre(button.dataset.genre);
+            history.replaceState(null, "", "genre.html?genre=" + encodeURIComponent(button.dataset.genre));
+        });
+    });
+
+    const requestedGenre = new URLSearchParams(window.location.search).get("genre");
+    const initialGenre = filterButtons.some(function (button) { return button.dataset.genre === requestedGenre; })
+        ? requestedGenre
+        : "All";
+    selectGenre(initialGenre);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+    setupSharedChrome();
     setupMovieDetail();
     setupHomePage();
+    setupGenrePage();
     setupFeedbackModals();
 
     const themeToggle = document.getElementById("themeToggle");
