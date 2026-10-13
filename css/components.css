@@ -1,4 +1,4 @@
-/* Navigation and theme toggle */
+/* Shared navigation */
 
 .cinetore-navbar {
     position: sticky;
@@ -15,8 +15,7 @@
 }
 
 .cinetore-logo {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0;
     color: var(--primary-text) !important;
     font-size: 26px;
     font-weight: 700;
@@ -25,41 +24,33 @@
     transition: opacity 0.2s ease;
 }
 
-.footer-brand {
+.cinetore-logo:hover {
     opacity: 0.8;
-    color: var(--footer-primary);
+}
 
-    .cinetore-navbar .navbar-nav>li>a {
-        padding-top: 25px;
-        padding-bottom: 25px;
-        color: var(--primary-text);
-        font-size: 15px;
-        transition: color 0.2s ease, background-color 0.2s ease;
-        color: var(--footer-secondary);
-
-        .cinetore-navbar .navbar-nav>li>a: hover,
-    }
-
+.cinetore-navbar .navbar-nav>li>a {
+    padding-top: 25px;
+    padding-bottom: 25px;
     color: var(--primary-text);
-    background-color: var(--hover-surface);
+    font-size: 15px;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-color: var(--footer-secondary);
-}
-
-height: var(--navbar-height);
-border: none;
-color: var(--footer-secondary);
-color: var(--primary-text);
-font-size: 17px;
-transition: color 0.2s ease,
-background-color 0.2s ease;
-}
-
+.cinetore-navbar .navbar-nav>li>a:hover,
+.cinetore-navbar .navbar-nav>li>a:focus,
 .theme-toggle:hover,
 .navbar-toggle:hover,
 .navbar-toggle:focus {
     background-color: var(--hover-surface) !important;
+}
+
+.theme-toggle {
+    width: 55px;
+    height: var(--navbar-height);
+    border: none;
+    background: transparent;
+    color: var(--primary-text);
+    font-size: 17px;
 }
 
 .navbar-toggle {
@@ -71,7 +62,24 @@ background-color 0.2s ease;
     background-color: var(--primary-text);
 }
 
-/* Floating action buttons */
+body.light-mode .cinetore-navbar .cinetore-logo,
+body.light-mode .cinetore-navbar .navbar-nav>li>a,
+body.light-mode .cinetore-navbar .theme-toggle {
+    color: #FFFFFF !important;
+}
+
+body.light-mode .cinetore-navbar .navbar-toggle .icon-bar {
+    background-color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+    .cinetore-navbar .navbar-nav.navbar-right {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* Floating action button */
 
 .floating-actions {
     position: fixed;
@@ -98,7 +106,7 @@ background-color 0.2s ease;
     cursor: pointer;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     transition: width 0.3s ease, background-color 0.25s ease,
-        border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        border-color 0.25s ease, transform 0.25s ease;
 }
 
 .floating-cta i {
@@ -114,7 +122,6 @@ background-color 0.2s ease;
     white-space: nowrap;
     font-size: 11px;
     font-weight: 600;
-    transition: opacity 0.2s ease;
 }
 
 .floating-cta.expanded {
@@ -132,12 +139,7 @@ background-color 0.2s ease;
     transform: translateY(-2px);
 }
 
-.floating-cta.expanded:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4),
-        0 0 12px rgba(143, 179, 201, 0.12);
-}
-
-/* Feedback modals */
+/* Request modal and notification */
 
 body.modal-open {
     overflow: hidden;
@@ -164,7 +166,7 @@ body.modal-open {
     max-height: calc(100vh - 32px);
     overflow-y: auto;
     padding: 32px;
-    background-color: var(--background);
+    background-color: var(--surface);
     border: 1px solid var(--brand-blue);
     border-radius: 8px;
     color: var(--primary-text);
@@ -189,18 +191,15 @@ body.modal-open {
     padding: 0;
     border: 1px solid var(--secondary-text);
     border-radius: 50%;
-    background-color: transparent;
+    background: transparent;
     color: var(--primary-text);
     font-size: 24px;
-    line-height: 1;
-    transition: color 0.2s ease, background-color 0.2s ease,
-        border-color 0.2s ease;
 }
 
 .modal-close:hover,
 .modal-close:focus {
     border-color: var(--accent);
-    background-color: var(--accent);
+    background: var(--accent);
     color: var(--on-accent);
 }
 
@@ -222,9 +221,9 @@ body.modal-open {
     display: block;
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid rgba(161, 161, 170, 0.45);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: var(--surface-input);
+    background: var(--surface-input);
     color: var(--primary-text);
     font: inherit;
 }
@@ -244,6 +243,11 @@ body.modal-open {
     color: var(--secondary-text);
 }
 
+.modal-field select option {
+    background: var(--surface-input);
+    color: var(--primary-text);
+}
+
 .modal-field input:focus,
 .modal-field select:focus,
 .modal-field textarea:focus,
@@ -251,11 +255,6 @@ body.modal-open {
 .cinetore-modal .btn:focus {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
-}
-
-.modal-field select option {
-    background-color: var(--surface-input);
-    color: var(--primary-text);
 }
 
 .modal-actions {
@@ -276,7 +275,6 @@ body.modal-open {
     margin: 16px 0 0;
     color: var(--accent);
     font-size: 14px;
-    line-height: 1.4;
 }
 
 .cinetore-notification {
@@ -288,38 +286,20 @@ body.modal-open {
     padding: 13px 18px;
     border: 1px solid var(--accent);
     border-radius: 6px;
-    background-color: var(--brand-blue);
-    color: var(--primary-text);
+    background: var(--brand-blue);
+    color: #FFFFFF;
     font-size: 14px;
     text-align: center;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     transform: translateX(-50%);
 }
 
-@media (max-width: 767px) {
-    .cinetore-notification {
-        top: 78px;
-    }
-
-    .cinetore-modal {
-        padding: 26px 20px 22px;
-    }
-
-    .cinetore-modal h2 {
-        font-size: 21px;
-    }
-
-    .modal-actions .btn {
-        width: 100%;
-    }
-}
-
-/* Footer */
+/* Shared footer */
 
 .cinetore-footer {
     margin-top: 60px;
     padding: 50px 0 25px;
-    background-color: var(--footer-background);
+    background: var(--footer-background);
     border-top: 2px solid var(--accent);
     color: var(--footer-secondary);
 }
@@ -357,7 +337,6 @@ body.modal-open {
 .footer-contact a {
     color: var(--footer-secondary);
     text-decoration: none;
-    transition: color 0.25s ease;
 }
 
 .footer-contact a:hover {
@@ -385,7 +364,6 @@ body.modal-open {
     color: var(--footer-secondary);
     font-size: 14px;
     text-decoration: none;
-    transition: color 0.25s ease, padding-left 0.25s ease;
 }
 
 .footer-links a:hover {
@@ -409,15 +387,12 @@ body.modal-open {
     border-radius: 50%;
     color: var(--footer-secondary);
     text-decoration: none;
-    transition: color 0.25s ease, border-color 0.25s ease,
-        transform 0.25s ease;
 }
 
 .footer-socials a:hover,
 .footer-socials a:focus {
     color: var(--accent);
     border-color: var(--accent);
-    transform: translateY(-2px);
 }
 
 .footer-copyright {
@@ -425,29 +400,6 @@ body.modal-open {
     font-size: 12px;
     line-height: 1.6;
 }
-
-/* Shared light-theme overrides */
-
-body.light-mode .cinetore-navbar {
-    background-color: rgba(15, 18, 87, 0.94);
-}
-
-body.light-mode .cinetore-navbar .navbar-nav>li>a,
-body.light-mode .cinetore-navbar .cinetore-logo,
-body.light-mode .cinetore-navbar .theme-toggle {
-    color: #ffffff;
-}
-
-body.light-mode .cinetore-navbar .navbar-toggle .icon-bar {
-    background-color: #ffffff;
-}
-
-body.light-mode .cinetore-footer,
-body.light-mode .footer-brand {
-    color: var(--primary-text);
-}
-
-/* Shared responsive styles */
 
 @media (max-width: 767px) {
     .cinetore-footer {
@@ -494,5 +446,21 @@ body.light-mode .footer-brand {
     .cta-label {
         margin-right: 12px;
         font-size: 11px;
+    }
+
+    .cinetore-modal {
+        padding: 26px 20px 22px;
+    }
+
+    .cinetore-modal h2 {
+        font-size: 21px;
+    }
+
+    .modal-actions .btn {
+        width: 100%;
+    }
+
+    .cinetore-notification {
+        top: 78px;
     }
 }
