@@ -46,19 +46,111 @@ function setupMovieDetail() {
     });
 }
 
+function readMyList() {
+    try {
+        return JSON.parse(localStorage.getItem("cinetoreMyList") || "[]");
+    } catch (error) {
+        return [];
+    }
+}
+
+function writeMyList(movieTitles) {
+    localStorage.setItem("cinetoreMyList", JSON.stringify(movieTitles));
+}
+
+function setupHomePage() {
+    const movieSearch = document.getElementById("movieSearch");
+    const movieCards = Array.from(document.querySelectorAll(".movie-card"));
+    const noMoviesMessage = document.getElementById("noMoviesMessage");
+    const genreLinks = document.querySelectorAll(".genre-filter");
+    const myListLink = document.getElementById("myListLink");
+    let activeGenre = "";
+    let showingMyList = false;
+
+    if (!movieSearch || movieCards.length === 0) {
+        return;
+    }
+
+    function filterMovies() {
+        const query = movieSearch.value.trim().toLowerCase();
+        const savedMovies = readMyList();
+        let visibleMovies = 0;
+
+        movieCards.forEach(function (movieCard) {
+            const title = (movieCard.dataset.movieTitle || movieCard.querySelector("img").alt).toLowerCase();
+            const genre = movieCard.dataset.genre || "";
+            const matchesQuery = title.includes(query);
+            const matchesGenre = !activeGenre || genre === activeGenre;
+            const matchesList = !showingMyList || savedMovies.includes(movieCard.dataset.movieTitle);
+            const column = movieCard.closest("[class*='col-']");
+            const isVisible = matchesQuery && matchesGenre && matchesList;
+
+            if (column) {
+                column.hidden = !isVisible;
+            }
+
+            if (isVisible) {
+                visibleMovies += 1;
+            }
+        });
+
+        if (noMoviesMessage) {
+            noMoviesMessage.textContent = showingMyList && savedMovies.length === 0
+                ? "Your list is empty."
+                : "No movies found.";
+            noMoviesMessage.hidden = visibleMovies !== 0;
+        }
+    }
+
+    movieCards.forEach(function (movieCard) {
+        movieCard.addEventListener("click", function () {
+            const title = movieCard.dataset.movieTitle;
+            const savedMovies = readMyList();
+
+            if (title && !savedMovies.includes(title)) {
+                savedMovies.push(title);
+                writeMyList(savedMovies);
+            }
+        });
+    });
+
+    movieSearch.addEventListener("input", filterMovies);
+
+    genreLinks.forEach(function (genreLink) {
+        genreLink.addEventListener("click", function () {
+            activeGenre = genreLink.dataset.genre || "";
+            showingMyList = false;
+            filterMovies();
+        });
+    });
+
+    if (myListLink) {
+        myListLink.addEventListener("click", function () {
+            showingMyList = true;
+            activeGenre = "";
+            movieSearch.value = "";
+            filterMovies();
+        });
+    }
+
+    filterMovies();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     setupMovieDetail();
+    setupHomePage();
+
     const themeToggle = document.getElementById("themeToggle");
     const themeIcon = document.getElementById("themeIcon");
     const requestMovieBtn = document.getElementById("requestMovieBtn");
     const reportIssueBtn = document.getElementById("reportIssueBtn");
-    const movieSearch = document.getElementById("movieSearch");
-    const movieCards = document.querySelectorAll(".movie-card");
 
     if (themeToggle && themeIcon) {
-        themeToggle.addEventListener("click", function () {
-            document.body.classList.toggle("light-mode");
+        if (localStorage.getItem("cinetoreTheme") === "light") {
+            document.body.classList.add("light-mode");
+        }
 
+        function updateThemeButton() {
             const isLightMode = document.body.classList.contains("light-mode");
             themeIcon.classList.toggle("fa-moon", isLightMode);
             themeIcon.classList.toggle("fa-sun", !isLightMode);
@@ -66,28 +158,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 "aria-label",
                 isLightMode ? "Switch to dark theme" : "Switch to light theme"
             );
+        }
+
+        updateThemeButton();
+
+        themeToggle.addEventListener("click", function () {
+            document.body.classList.toggle("light-mode");
+            localStorage.setItem(
+                "cinetoreTheme",
+                document.body.classList.contains("light-mode") ? "light" : "dark"
+            );
+            updateThemeButton();
         });
     }
 
-    if (movieSearch) {
-        movieSearch.addEventListener("input", function () {
-            const query = movieSearch.value.trim().toLowerCase();
-
-            movieCards.forEach(function (movieCard) {
-                const image = movieCard.querySelector("img");
-                const title = image ? image.alt.toLowerCase() : "";
-                const column = movieCard.closest("[class*='col-']");
-
-                if (column) {
-                    column.hidden = query !== "" && !title.includes(query);
-                }
-            });
+    document.querySelectorAll("[data-social-placeholder]").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            alert(link.dataset.socialPlaceholder + " profile link is not configured yet.");
         });
-    }
-
+    });
 
     function setupDoubleClickAction(button, action) {
-
         if (!button) {
             return;
         }
@@ -95,41 +187,29 @@ document.addEventListener("DOMContentLoaded", function () {
         let expanded = false;
 
         button.addEventListener("click", function () {
-
             if (!expanded) {
-
-                // First click → show the label
                 expanded = true;
-
                 button.classList.add("expanded");
-
-            } else {
-
-                // Second click → perform the action
-                action();
-
-                // Collapse after action
-                expanded = false;
-
-                button.classList.remove("expanded");
+                return;
             }
 
+            action();
+            expanded = false;
+            button.classList.remove("expanded");
         });
-
     }
 
-    setupDoubleClickAction(
-        requestMovieBtn,
-        function () {
-            alert("Movie request feature coming soon.");
+    setupDoubleClickAction(requestMovieBtn, function () {
+        const title = prompt("Which movie would you like to request?");
+        if (title) {
+            alert("Your request was recorded locally: " + title);
         }
-    );
+    });
 
-    setupDoubleClickAction(
-        reportIssueBtn,
-        function () {
-            alert("Report issue feature coming soon.");
+    setupDoubleClickAction(reportIssueBtn, function () {
+        const issue = prompt("What issue would you like to report?");
+        if (issue) {
+            alert("Your report was recorded locally.");
         }
-    );
-
+    });
 });
