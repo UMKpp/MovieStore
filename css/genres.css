@@ -70,10 +70,13 @@
     font-weight: 700;
     line-height: 1.35;
     text-align: center;
+    text-decoration: none;
 }
 
+.genre-movie-column .movie-card:hover,
 .genre-movie-column .movie-card:hover .genre-movie-title {
     color: var(--accent);
+    text-decoration: none;
 }
 
 .genre-empty-state {
