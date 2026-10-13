@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CINETORE - Home</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!--nav-->
+    <nav class="navbar cinetore-navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#cinetore-navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand cinetore-logo" href="index.html">
+                    CINETORE
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="cinetore-navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Genre</a></li>
+
+                    <li><a href="#">My List</a></li>
+
+                    <li>
+                        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+                            <i id="themeIcon" class="fa-solid fa-sun"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Hero section -->
+
+    <main>
+
+        <section class="hero-section">
+
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Make your day with Cinetore</h1>
+                    <p class="hero-subtitle">Discover something worth watching.</p>
+                    <!-- Search bar -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="movieSearch" placeholder="search movie name" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!--Popular Movies-->
+
+        <section class="popular-section">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Popular Movies</h2>
+                </div>
+                <div class="row popular-movies">
+                    <!-- Spider-Man -->
+                    <div class="col-xs-12 col-sm-4">
+                        <a href="spider-man-brand-new-day.html" class="movie-card">
+                            <div class="poster-container">
+                                <img src="https://media.themoviedb.org/t/p/w220_and_h330_face/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg"
+                                    alt="Spider-Man: Brand New Day" class="movie-poster">
+                                <div class="poster-overlay">
+                                    <div class="play-button">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <!-- The Love Hypothesis -->
+                    <div class="col-xs-12 col-sm-4">
+                        <a href="movie-details.html?id=the-love-hypothesis" class="movie-card">
+                            <div class="poster-container">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-OxBAioogfs5l3mKxzJpkNodxDknnddccmIGdrg2JvHvVRPfT-mB0clA&s=10"
+                                    alt="The Love Hypothesis" class="movie-poster">
+                                <div class="poster-overlay">
+                                    <div class="play-button">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <!-- The Conjuring -->
+                    <div class="col-xs-12 col-sm-4">
+                        <a href="movie-details.html?id=the-conjuring-last-rites" class="movie-card">
+                            <div class="poster-container">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbLTUdWonTPdE9Ozb3EYsJVj0S6RVwRsu645C9GA_SrQ&s=10"
+                                    alt="The Conjuring: Last Rites" class="movie-poster">
+                                <div class="poster-overlay">
+                                    <div class="play-button">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!--Floating Action Buttons-->
+
+    <div class="floating-actions">
+
+        <button type="button" class="floating-cta" id="requestMovieBtn" aria-label="Request Movie">
+            <i class="fa-solid fa-film"></i>
+            <span class="cta-label">Request Movie</span>
+        </button>
+
+        <button type="button" class="floating-cta" id="reportIssueBtn" aria-label="Report Issues">
+            <i class="fa-solid fa-flag"></i>
+            <span class="cta-label">Report Issues</span>
+        </button>
+
+    </div>
+
+
+    <!--Footer-->
+
+    <footer class="cinetore-footer">
+        <div class="container">
+            <div class="row">
+
+                <!-- Left Column -->
+                <div class="col-sm-4 footer-column">
+                    <div class="footer-brand">CINETORE</div>
+
+                    <div class="footer-contact">
+                        <p>
+                            <i class="fa-solid fa-envelope"></i>
+                            <a href="mailto:cinetore@gmail.com">
+                                cinetore@gmail.com
+                            </a>
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-phone"></i>
+                            <a href="tel:+941122334567">
+                                +94 11 223 34567
+                            </a>
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Cinetore, Colombo 7
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Middle Column -->
+                <div class="col-sm-4 footer-column">
+                    <h4 class="footer-heading">Genres</h4>
+
+                    <ul class="footer-links">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Sci-Fi</a></li>
+                        <li><a href="#">Drama</a></li>
+                        <li><a href="#">Horror</a></li>
+                    </ul>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-sm-4 footer-column">
+                    <h4 class="footer-heading">Follow Us</h4>
+
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <a href="#" aria-label="X">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+
+                        <a href="#" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+
+                    <div class="footer-copyright">
+                        © 2026 Cinetore. All rights reserved.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
