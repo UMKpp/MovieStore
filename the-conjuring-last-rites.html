@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Conjuring: Last Rites | Cinetore</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default cinetore-navbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#cinetoreNav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">CINETORE</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="cinetoreNav">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Genre</a></li>
+                <li><a href="#">My List</a></li>
+                <li><a href="#"><i class="fa-solid fa-sun"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="movie-page">
+    <div class="container">
+
+        <h2 class="movie-title"><strong>The Conjuring: Last Rites</strong></h2>
+
+        <section class="movie-details">
+
+            <div class="movie-info">
+                <div class="detail-row">
+                    <span class="detail-label">Genre:</span>
+                    <span class="detail-value">Horror</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Release Year:</span>
+                    <span class="detail-value">2025</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Rating:</span>
+                    <span class="detail-value">N/A / 10</span>
+                </div>
+
+                <div class="movie-description">
+                    <span class="detail-label">Description:</span>
+                    <div class="detail-value">Ed and Lorraine Warren return for another terrifying case as their investigations lead them into a new supernatural mystery.</div>
+                </div>
+            </div>
+
+            <div class="movie-poster-area">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbLTUdWonTPdE9Ozb3EYsJVj0S6RVwRsu645C9GA_SrQ&s=10" alt="The Conjuring: Last Rites poster" class="movie-poster">
+
+                <div class="movie-actions">
+                    <button type="button" class="btn btn-gold watch-now">
+                        <i class="fa-solid fa-play"></i> Watch Now
+                    </button>
+                    <button type="button" class="btn btn-cinetore download-movie">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="form-section">
+            <h3 class="section-title">Add New Movie</h3>
+
+            <form class="add-movie-form" novalidate>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="movieTitle">Title:</label>
+                            <input type="text" class="form-control" id="movieTitle" placeholder="Movie title">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="movieGenre">Genre:</label>
+                            <input type="text" class="form-control" id="movieGenre" placeholder="Genre">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="releaseYear">Release Year:</label>
+                            <input type="number" class="form-control" id="releaseYear" placeholder="2026">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="movieRating">Rating:</label>
+                            <input type="number" class="form-control" id="movieRating"
+                                   placeholder="8.5" min="0" max="10" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="movieDescription">Description:</label>
+                    <textarea class="form-control" id="movieDescription"
+                              placeholder="Enter movie description"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-gold">
+                    Add Movie
+                </button>
+
+                <div class="alert form-message"></div>
+            </form>
+        </section>
+
+        <section class="cast-section">
+            <h3 class="section-title">Cast</h3>
+
+            <div class="cast-list">
+                
+                    <div class="cast-card">
+                        <a href="https://www.google.com/search?q=Vera+Farmiga" target="_blank" rel="noopener noreferrer">
+                            <img src="https://ui-avatars.com/api/?name=Vera+Farmiga&size=180&background=0F1257&color=FFFFFF&bold=true" alt="Vera Farmiga" class="cast-photo">
+                            <div class="cast-name">Vera Farmiga</div>
+                        </a>
+                    </div>
+                    <div class="cast-card">
+                        <a href="https://www.google.com/search?q=Patrick+Wilson" target="_blank" rel="noopener noreferrer">
+                            <img src="https://ui-avatars.com/api/?name=Patrick+Wilson&size=180&background=0F1257&color=FFFFFF&bold=true" alt="Patrick Wilson" class="cast-photo">
+                            <div class="cast-name">Patrick Wilson</div>
+                        </a>
+                    </div>
+                    <div class="cast-card">
+                        <a href="https://www.google.com/search?q=Mia+Tomlinson" target="_blank" rel="noopener noreferrer">
+                            <img src="https://ui-avatars.com/api/?name=Mia+Tomlinson&size=180&background=0F1257&color=FFFFFF&bold=true" alt="Mia Tomlinson" class="cast-photo">
+                            <div class="cast-name">Mia Tomlinson</div>
+                        </a>
+                    </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<div class="floating-actions">
+    <button type="button" class="floating-cta"
+            data-action="Movie request feature coming soon."
+            aria-label="Request Movie">
+        <i class="fa-solid fa-film"></i>
+        <span class="cta-label">Request Movie</span>
+    </button>
+
+    <button type="button" class="floating-cta"
+            data-action="Report issue feature coming soon."
+            aria-label="Report Issues">
+        <i class="fa-solid fa-flag"></i>
+        <span class="cta-label">Report Issues</span>
+    </button>
+</div>
+
+<footer class="cinetore-footer">
+    <div class="container">
+        © 2026 Cinetore. All rights reserved.
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
