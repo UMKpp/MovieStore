@@ -19,13 +19,113 @@ const movieData = {
 
 function googleSearch(value) { return "https://www.google.com/search?q=" + encodeURIComponent(value + " actor"); }
 
+const availableCastImages = new Set([
+    "adam-driver.jpg", "al-pacino.jpg", "ana-de-armas.jpg", "anna-paquin.jpg",
+    "billy-crystal.jpg", "candice-bergen.jpg", "carrie-fisher.jpg", "chris-hemsworth.jpg",
+    "daisy-edgar-jones.jpg", "dwayne-johnson.jpg", "enzo-vogrincic.jpg", "gal-gadot.jpg",
+    "golshifteh-farahani.jpg", "jacob-batalon.jpg", "jamie-foxx.jpg", "jennifer-garner.jpg",
+    "jennifer-lawrence.jpg", "joe-pesci.jpg", "john-boyega.jpg", "jonah-hill.jpg",
+    "josh-lucas.jpg", "kiefer-sutherland.jpg", "laura-dern.jpg", "leonardo-dicaprio.jpg",
+    "mari-natsuki.jpg", "mark-ruffalo.jpg", "meg-ryan.jpg", "meryl-streep.jpg",
+    "patrick-dempsey.jpg", "patrick-wilson.jpg", "randeep-hooda.jpg", "ray-liotta.jpg",
+    "reese-witherspoon.jpg", "rege-jean-page.jpg", "robert-de-niro.jpg", "rudhraksh-jaiswal.jpg",
+    "ryan-gosling.jpg", "ryan-reynolds.jpg", "sadie-sink.jpg", "scarlett-johansson.jpg",
+    "teyonah-parris.jpg", "tom-holland.jpg", "vera-farmiga.jpg", "walker-scobell.jpg",
+    "zendaya.jpg"
+]);
+
 function buildCast(cast) {
-    return cast.map(function (person) {
+    return cast.filter(function (person) {
+        const imageName = person[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") + ".jpg";
+        return availableCastImages.has(imageName);
+    }).map(function (person) {
         const imageName = person[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") + ".jpg";
         const image = "imagesaces/" + imageName;
-        const fallback = "https://en.wikipedia.org/wiki/Special:FilePath/" + encodeURIComponent(person[2]) + "?width=180";
-        return `<div class="cast-card"><a href="${googleSearch(person[0])}" target="_blank" rel="noopener noreferrer"><span class="cast-photo-wrap"><img src="${image}" alt="${person[0]}" class="cast-photo" onerror="this.onerror=null;this.src='${fallback}'"><i class="fa-solid fa-user cast-fallback" aria-hidden="true"></i></span><span class="cast-name">${person[0]}</span><span class="cast-role">${person[1]}</span></a></div>`;
+        return `<div class="cast-card"><a href="${googleSearch(person[0])}" target="_blank" rel="noopener noreferrer"><span class="cast-photo-wrap"><img src="${image}" alt="${person[0]}" class="cast-photo"></span><span class="cast-name">${person[0]}</span><span class="cast-role">${person[1]}</span></a></div>`;
     }).join("");
+}
+
+function setupSharedChrome() {
+    const isHomePage = Boolean(document.getElementById("movieSearch"));
+    const homePrefix = isHomePage ? "" : "index.html";
+    const navbar = document.querySelector(".cinetore-navbar");
+    const floatingActions = document.querySelector(".floating-actions");
+    const footer = document.querySelector(".cinetore-footer");
+
+    if (navbar) {
+        navbar.outerHTML = `<nav class="navbar cinetore-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cinetore-navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand cinetore-logo" href="index.html">CINETORE</a>
+                </div>
+                <div class="collapse navbar-collapse" id="cinetore-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="${homePrefix}#genres">Genre</a></li>
+                        <li><a href="${homePrefix}#movie-section" id="myListLink">My List</a></li>
+                        <li>
+                            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+                                <i id="themeIcon" class="fa-solid fa-sun"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>`;
+    }
+
+    if (floatingActions) {
+        floatingActions.outerHTML = `<div class="floating-actions">
+            <button type="button" class="floating-cta" id="requestMovieBtn" aria-label="Request Movie">
+                <i class="fa-solid fa-film"></i>
+                <span class="cta-label">Request Movie</span>
+            </button>
+            <button type="button" class="floating-cta" id="reportIssueBtn" aria-label="Report Issues">
+                <i class="fa-solid fa-flag"></i>
+                <span class="cta-label">Report Issues</span>
+            </button>
+        </div>`;
+    }
+
+    if (footer) {
+        footer.innerHTML = `<div class="container">
+            <div class="row">
+                <div class="col-sm-4 footer-column" id="genres">
+                    <div class="footer-brand">CINETORE</div>
+                    <div class="footer-contact">
+                        <p><i class="fa-solid fa-envelope"></i><a href="mailto:cinetore@gmail.com">cinetore@gmail.com</a></p>
+                        <p><i class="fa-solid fa-phone"></i><a href="tel:+941122334567">+94 11 223 34567</a></p>
+                        <p><i class="fa-solid fa-location-dot"></i>Cinetore, Colombo 7</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 footer-column">
+                    <h4 class="footer-heading">Genres</h4>
+                    <ul class="footer-links">
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Action">Action</a></li>
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Sci-Fi">Sci-Fi</a></li>
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Drama">Drama</a></li>
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="RomCom">RomCom</a></li>
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Animation">Animation</a></li>
+                        <li><a href="${homePrefix}#movie-section" class="genre-filter" data-genre="Horror">Horror</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 footer-column">
+                    <h4 class="footer-heading">Follow Us</h4>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Facebook" data-social-placeholder="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="X" data-social-placeholder="X"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" aria-label="Instagram" data-social-placeholder="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                    <div class="footer-copyright">© 2026 Cinetore. All rights reserved.</div>
+                </div>
+            </div>
+        </div>`;
+    }
 }
 
 function setupMovieDetail() {
@@ -33,6 +133,7 @@ function setupMovieDetail() {
     const movieInfo = document.querySelector(".movie-info");
     if (!titleElement || !movieInfo || !movieData[titleElement.textContent.trim()]) return;
     const movie = movieData[titleElement.textContent.trim()];
+    setupSharedChrome();
     const description = movieInfo.querySelector(".movie-description .detail-value");
     const rating = movieInfo.querySelector(".detail-row:nth-child(3)");
     if (description) description.textContent = movie.description;
@@ -41,9 +142,6 @@ function setupMovieDetail() {
     const oldCast = document.querySelector(".cast-section");
     if (oldCast) oldCast.remove();
     movieInfo.insertAdjacentHTML("beforeend", `<section class="cast-section"><h3 class="section-title">Cast</h3><div class="cast-list">${buildCast(movie.cast)}</div></section>`);
-    document.querySelectorAll(".cinetore-footer").forEach(function (footer) {
-        footer.innerHTML = `<div class="container"><div class="row"><div class="col-sm-4 footer-column"><div class="footer-brand">CINETORE</div><div class="footer-contact"><p><i class="fa-solid fa-envelope"></i><a href="mailto:cinetore@gmail.com">cinetore@gmail.com</a></p><p><i class="fa-solid fa-phone"></i><a href="tel:+941122334567">+94 11 223 34567</a></p><p><i class="fa-solid fa-location-dot"></i>Cinetore, Colombo 7</p></div></div><div class="col-sm-4 footer-column"><h4 class="footer-heading">Genres</h4><ul class="footer-links"><li><a href="#">Action</a></li><li><a href="#">Sci-Fi</a></li><li><a href="#">Drama</a></li><li><a href="#">Horror</a></li></ul></div><div class="col-sm-4 footer-column"><h4 class="footer-heading">Follow Us</h4><div class="footer-socials"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></div><div class="footer-copyright">© 2026 Cinetore. All rights reserved.</div></div></div></div>`;
-    });
 }
 
 function readMyList() {
@@ -56,6 +154,204 @@ function readMyList() {
 
 function writeMyList(movieTitles) {
     localStorage.setItem("cinetoreMyList", JSON.stringify(movieTitles));
+}
+
+function ensureFeedbackModals() {
+    if (document.getElementById("requestMovieModal")) {
+        return;
+    }
+
+    document.body.insertAdjacentHTML("beforeend", `<div class="cinetore-modal-backdrop" id="requestMovieModal" hidden>
+        <section class="cinetore-modal" role="dialog" aria-modal="true" aria-labelledby="requestMovieHeading">
+            <button type="button" class="modal-close" data-modal-close aria-label="Close request form"><span aria-hidden="true">&times;</span></button>
+            <h2 id="requestMovieHeading">Request a Movie</h2>
+            <form id="requestMovieForm" novalidate>
+                <div class="modal-field">
+                    <label for="requestMovieName">Movie Name</label>
+                    <input type="text" id="requestMovieName" name="movieName" placeholder="Enter the movie name" required>
+                </div>
+                <div class="modal-field">
+                    <label for="requestReleaseYear">Release Year</label>
+                    <input type="number" id="requestReleaseYear" name="releaseYear" placeholder="Enter the release year" min="1888" max="2100" required>
+                </div>
+                <div class="modal-field">
+                    <label for="requestAdditionalInfo">Additional Information</label>
+                    <textarea id="requestAdditionalInfo" name="additionalInfo" placeholder="Any additional details (optional)"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-accent">Submit Request</button>
+                </div>
+                <p class="modal-message" id="requestMovieMessage" role="status" hidden></p>
+            </form>
+        </section>
+    </div>
+    <div class="cinetore-modal-backdrop" id="reportIssueModal" hidden>
+        <section class="cinetore-modal" role="dialog" aria-modal="true" aria-labelledby="reportIssueHeading">
+            <button type="button" class="modal-close" data-modal-close aria-label="Close issue form"><span aria-hidden="true">&times;</span></button>
+            <h2 id="reportIssueHeading">Report an Issue</h2>
+            <form id="reportIssueForm" novalidate>
+                <div class="modal-field">
+                    <label for="issueType">Issue Type</label>
+                    <select id="issueType" name="issueType" required>
+                        <option value="">Select an issue type</option>
+                        <option>Movie details are incorrect</option>
+                        <option>Movie poster or image is missing</option>
+                        <option>Movie page is not opening</option>
+                        <option>Search is not working</option>
+                        <option>Buttons or links are not working</option>
+                        <option>Video or download option issue</option>
+                        <option>Layout or display problem</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label for="issueDescription">Issue Description</label>
+                    <textarea id="issueDescription" name="issueDescription" placeholder="Describe the issue you encountered" required></textarea>
+                </div>
+                <div class="modal-field" id="otherIssueField" hidden>
+                    <label for="otherIssueDescription">Please specify the issue</label>
+                    <textarea id="otherIssueDescription" name="otherIssueDescription" placeholder="Specify the issue"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-accent">Submit Report</button>
+                </div>
+                <p class="modal-message" id="reportIssueMessage" role="status" hidden></p>
+            </form>
+        </section>
+    </div>`);
+}
+
+function setupFeedbackModals() {
+    ensureFeedbackModals();
+
+    const modalPairs = [
+        {
+            button: document.getElementById("requestMovieBtn"),
+            modal: document.getElementById("requestMovieModal"),
+            form: document.getElementById("requestMovieForm"),
+            message: document.getElementById("requestMovieMessage")
+        },
+        {
+            button: document.getElementById("reportIssueBtn"),
+            modal: document.getElementById("reportIssueModal"),
+            form: document.getElementById("reportIssueForm"),
+            message: document.getElementById("reportIssueMessage")
+        }
+    ];
+    let activeModal = null;
+    let opener = null;
+
+    function closeModal(modal, restoreFocus) {
+        if (!modal) {
+            return;
+        }
+
+        modal.hidden = true;
+        document.body.classList.remove("modal-open");
+
+        if (restoreFocus && opener) {
+            opener.focus();
+        }
+
+        activeModal = null;
+        opener = null;
+    }
+
+    function openModal(modal, button) {
+        if (activeModal) {
+            closeModal(activeModal, false);
+        }
+
+        activeModal = modal;
+        opener = button;
+        modal.hidden = false;
+        document.body.classList.add("modal-open");
+        const message = modal.querySelector(".modal-message");
+        if (message) {
+            message.hidden = true;
+            message.textContent = "";
+        }
+        modal.querySelector("input, select, textarea").focus();
+    }
+
+    modalPairs.forEach(function (pair) {
+        if (!pair.button || !pair.modal || !pair.form) {
+            return;
+        }
+
+        pair.button.addEventListener("click", function () {
+            openModal(pair.modal, pair.button);
+        });
+
+        pair.modal.addEventListener("click", function (event) {
+            if (event.target === pair.modal || event.target.closest("[data-modal-close]")) {
+                closeModal(pair.modal, true);
+            }
+        });
+
+        pair.form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (pair.form.id === "requestMovieForm") {
+                const name = document.getElementById("requestMovieName");
+                const year = document.getElementById("requestReleaseYear");
+                const yearValue = Number(year.value);
+                const currentYear = new Date().getFullYear();
+
+                if (!name.value.trim() || !year.value || yearValue < 1888 || yearValue > currentYear + 5) {
+                    name.setCustomValidity(name.value.trim() ? "" : "Enter a movie name.");
+                    pair.form.reportValidity();
+                    if (year.value && (yearValue < 1888 || yearValue > currentYear + 5)) {
+                        year.setCustomValidity("Enter a valid four-digit release year.");
+                        year.reportValidity();
+                        year.setCustomValidity("");
+                    }
+                    return;
+                }
+
+                pair.message.textContent = "Thanks. Your request was prepared locally.";
+            } else if (pair.form.checkValidity()) {
+                pair.message.textContent = "Thanks. Your report was prepared locally.";
+            } else {
+                pair.form.reportValidity();
+                return;
+            }
+
+            pair.form.reset();
+            const otherField = document.getElementById("otherIssueField");
+            if (otherField) {
+                otherField.hidden = true;
+            }
+            const otherDescription = document.getElementById("otherIssueDescription");
+            if (otherDescription) {
+                otherDescription.required = false;
+                otherDescription.value = "";
+            }
+            pair.message.hidden = false;
+        });
+    });
+
+    const issueType = document.getElementById("issueType");
+    const otherIssueField = document.getElementById("otherIssueField");
+    const otherIssueDescription = document.getElementById("otherIssueDescription");
+
+    if (issueType && otherIssueField && otherIssueDescription) {
+        issueType.addEventListener("change", function () {
+            const isOther = issueType.value === "Other";
+            otherIssueField.hidden = !isOther;
+            otherIssueDescription.required = isOther;
+
+            if (!isOther) {
+                otherIssueDescription.value = "";
+            }
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && activeModal) {
+            closeModal(activeModal, true);
+        }
+    });
 }
 
 function setupHomePage() {
@@ -139,12 +435,10 @@ function setupHomePage() {
 document.addEventListener("DOMContentLoaded", function () {
     setupMovieDetail();
     setupHomePage();
+    setupFeedbackModals();
 
     const themeToggle = document.getElementById("themeToggle");
     const themeIcon = document.getElementById("themeIcon");
-    const requestMovieBtn = document.getElementById("requestMovieBtn");
-    const reportIssueBtn = document.getElementById("reportIssueBtn");
-
     if (themeToggle && themeIcon) {
         if (localStorage.getItem("cinetoreTheme") === "light") {
             document.body.classList.add("light-mode");
@@ -179,37 +473,4 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    function setupDoubleClickAction(button, action) {
-        if (!button) {
-            return;
-        }
-
-        let expanded = false;
-
-        button.addEventListener("click", function () {
-            if (!expanded) {
-                expanded = true;
-                button.classList.add("expanded");
-                return;
-            }
-
-            action();
-            expanded = false;
-            button.classList.remove("expanded");
-        });
-    }
-
-    setupDoubleClickAction(requestMovieBtn, function () {
-        const title = prompt("Which movie would you like to request?");
-        if (title) {
-            alert("Your request was recorded locally: " + title);
-        }
-    });
-
-    setupDoubleClickAction(reportIssueBtn, function () {
-        const issue = prompt("What issue would you like to report?");
-        if (issue) {
-            alert("Your report was recorded locally.");
-        }
-    });
 });
