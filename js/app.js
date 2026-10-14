@@ -332,6 +332,9 @@ function setupHomePage() {
 
             if (column) {
                 column.hidden = !isVisible;
+            } else {
+                // Fallback: hide the card itself if no column wrapper
+                movieCard.hidden = !isVisible;
             }
 
             if (isVisible) {
